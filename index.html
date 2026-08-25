@@ -9,16 +9,22 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
   <style>
-    /* ─── Solarized tokens ─── */
+    /* ════════════════════════════════════════════
+       TOKENS — paleta Solarized completa
+       ════════════════════════════════════════════ */
     :root {
+      /* Dark-mode backgrounds */
       --sol-base03:  #002b36;
       --sol-base02:  #073642;
+      /* Content (dark) */
       --sol-base01:  #586e75;
       --sol-base00:  #657b83;
       --sol-base0:   #839496;
       --sol-base1:   #93a1a1;
+      /* Light-mode backgrounds */
       --sol-base2:   #eee8d5;
       --sol-base3:   #fdf6e3;
+      /* Accent colors */
       --sol-yellow:  #b58900;
       --sol-orange:  #cb4b16;
       --sol-red:     #dc322f;
@@ -28,12 +34,12 @@
       --sol-cyan:    #2aa198;
       --sol-green:   #859900;
 
-      /* semantic aliases */
-      --bg:          var(--sol-base3);
-      --bg-highlight:var(--sol-base2);
-      --text:        var(--sol-base01);
-      --accent:      var(--sol-red);
-      --link-bar-bg: var(--sol-base2);
+      /* Aliases semánticos usados en todo el sitio */
+      --bg:           var(--sol-base3);   /* fondo principal */
+      --bg-highlight: var(--sol-base2);   /* fondo secundario / bordes */
+      --text:         var(--sol-base01);  /* texto principal */
+      --accent:       var(--sol-red);     /* color de acento (nombre, links) */
+      --link-bar-bg:  var(--sol-base2);   /* fondo barra de redes */
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -45,12 +51,14 @@
       line-height: 1.7;
     }
 
-    /* ─── HERO ─── */
+
+    /* ════════════════════════════════════════════
+       HERO — banner principal con GIF de fondo
+       ════════════════════════════════════════════ */
     .hero {
       position: relative;
       width: 100%;
-      max-width: 1400px;
-      height: 400px;
+      max-width: 900px;
       margin: 2rem auto 0;
       border: 2px solid var(--bg-highlight);
       border-radius: 4px;
@@ -58,23 +66,18 @@
       background: var(--bg-highlight);
     }
 
-    /* GIF background */
     .hero__bg {
       display: block;
       width: 100%;
-      height: 100%;
+      height: auto;
       object-fit: cover;
-      object-position: center;
       image-rendering: pixelated;
     }
-    /* overlay strip at the top for the name / subtitle */
+
     .hero__title-overlay {
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       padding: 1.1rem 1.4rem 0.5rem;
-      /* subtle dark-to-transparent so text is legible against the sky */
       background: linear-gradient(
         to bottom,
         rgba(253,246,227,0.72) 0%,
@@ -102,36 +105,35 @@
       letter-spacing: 0.02em;
     }
 
-    /* link bar — bottom-right corner of the image */
     .hero__links {
       position: absolute;
-      bottom: 0;
-      right: 0;
+      bottom: 0; right: 0;
       background: var(--link-bar-bg);
       padding: 0.3rem 0.75rem;
       font-size: 0.82rem;
       font-weight: 500;
       color: var(--accent);
     }
-
     .hero__links a {
       color: var(--accent);
       text-decoration: none;
       transition: color 0.15s;
     }
     .hero__links a:hover { color: var(--sol-orange); }
-
-    .hero__links span {
+    .hero__links .sep {
       color: var(--text);
       opacity: 0.5;
       margin: 0 0.25rem;
     }
 
-    /* ─── BIO ─── */
+
+    /* ════════════════════════════════════════════
+       BIO — párrafo de presentación
+       ════════════════════════════════════════════ */
     .bio {
-      max-width: 1400px;
+      max-width: 900px;
       margin: 0 auto;
-      padding: 1.4rem 1rem 2.5rem;
+      padding: 1.4rem 1rem 2rem;
       font-size: clamp(0.82rem, 1.8vw, 0.93rem);
       font-weight: 400;
       color: var(--text);
@@ -140,22 +142,187 @@
       hyphens: auto;
     }
 
-    /* ─── Responsive ─── */
+
+    /* ════════════════════════════════════════════
+       SECCIÓN PROYECTOS — encabezado estilo TUI
+       ════════════════════════════════════════════ */
+    .projects-section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1rem 3rem;
+    }
+
+    /* Título de sección con línea decorativa estilo TUI */
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+    }
+    /* Línea horizontal que se extiende hasta el borde */
+    .section-title::before { content: "┌─"; white-space: pre; }
+    .section-title::after  {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--bg-highlight);
+      border-top: 1px solid var(--sol-base01);
+      opacity: 0.4;
+    }
+
+
+    /* ════════════════════════════════════════════
+       GRID DE TARJETAS
+       3 columnas fijas que respetan el max-width del sitio
+       ════════════════════════════════════════════ */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+
+    /* ════════════════════════════════════════════
+       TARJETA INDIVIDUAL
+       ════════════════════════════════════════════ */
+    .card {
+      /* Tamaño fijo — ajusta height si lo necesitas */
+      height: 240px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+
+      /* Borde estilo TUI (doble línea simulada con box-shadow) */
+      border: 1px solid var(--sol-base01);
+      outline: 1px solid var(--bg-highlight);
+      outline-offset: -3px;
+
+      overflow: hidden;
+      background: var(--bg-highlight);
+      cursor: pointer;
+      transition: border-color 0.15s, transform 0.12s;
+    }
+    .card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    /* Esquina TUI decorativa top-left */
+    .card::before {
+      content: "┌";
+      position: absolute;
+      top: 3px; left: 5px;
+      font-size: 0.65rem;
+      color: var(--sol-base01);
+      opacity: 0.45;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* — Portada (imagen / gif) — */
+    .card__cover {
+      width: 100%;
+      height: 140px;          /* altura de la imagen; el resto lo ocupa el footer */
+      flex-shrink: 0;
+      overflow: hidden;
+      background: var(--sol-base02);
+    }
+    .card__cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      image-rendering: pixelated;  /* mantiene el look pixel-art en GIFs */
+      display: block;
+      transition: transform 0.2s;
+    }
+    .card:hover .card__cover img { transform: scale(1.03); }
+
+    /* — Footer de la tarjeta (nombre + etiquetas) — */
+    .card__footer {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 0.45rem 0.6rem 0.45rem;
+      border-top: 1px solid var(--sol-base01);
+      background: var(--bg);
+    }
+
+    /* Nombre del proyecto */
+    .card__title {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      letter-spacing: 0.02em;
+    }
+
+    /* — Etiquetas — */
+    .card__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-top: 0.3rem;
+    }
+
+    /*
+      Etiqueta base.
+      El color de fondo se aplica con el atributo style en el HTML,
+      por ejemplo: style="--tag-color: var(--sol-blue)"
+      El texto siempre es blanco/oscuro según contraste.
+    */
+    .tag {
+      display: inline-block;
+      padding: 0.1rem 0.4rem;
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      background: var(--tag-color, var(--sol-base01));
+      color: var(--sol-base3);
+      border: 1px solid transparent;
+      /* borde ligeramente más oscuro que el fondo */
+      border-color: color-mix(in srgb, var(--tag-color, var(--sol-base01)) 70%, black);
+      white-space: nowrap;
+    }
+
+
+    /* ════════════════════════════════════════════
+       RESPONSIVE
+       ════════════════════════════════════════════ */
+    @media (max-width: 680px) {
+      .cards-grid { grid-template-columns: repeat(2, 1fr); }
+      .card { height: 210px; }
+    }
+    @media (max-width: 420px) {
+      .cards-grid { grid-template-columns: 1fr; }
+      .card { height: 200px; }
+    }
     @media (max-width: 600px) {
       .hero { margin: 1rem auto 0; }
       .hero__title-overlay { padding: 0.75rem 0.9rem 0.4rem; }
       .hero__links { font-size: 0.72rem; padding: 0.25rem 0.5rem; }
-      .bio { padding: 1rem 0.9rem 2rem; }
+      .bio { padding: 1rem 0.9rem 1.5rem; }
     }
-
     @media (prefers-reduced-motion: reduce) {
-      .hero__bg { animation: none; }
+      .hero__bg, .card__cover img { animation: none; transition: none; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ═══════════════ HERO ═══════════════ -->
+  <!-- ═══════════════════════════════════════
+       HERO — banner principal
+       ═══════════════════════════════════════ -->
   <header class="hero">
     <img
       class="hero__bg"
@@ -163,18 +330,19 @@
       alt="Ilustración pixel art de un pueblo medieval con montañas al fondo"
       loading="eager"
     />
-
     <div class="hero__title-overlay">
       <h1 class="hero__name">Guillermo Spelucin</h1>
       <p class="hero__subtitle">Estudiante de Derecho</p>
     </div>
-
     <nav class="hero__links" aria-label="Redes y contacto">
-      [<a href="mailto:tucorreo@ejemplo.com" title="Correo">Mail</a><span>|</span><a href="https://github.com/" target="_blank" rel="noopener" title="GitHub">Github</a><span>|</span><a href="https://linkedin.com/in/" target="_blank" rel="noopener" title="LinkedIn">Linkedin</a>]
+      [<a href="mailto:tucorreo@ejemplo.com">Mail</a><span class="sep">|</span><a href="https://github.com/" target="_blank" rel="noopener">Github</a><span class="sep">|</span><a href="https://linkedin.com/in/" target="_blank" rel="noopener">Linkedin</a>]
     </nav>
   </header>
 
-  <!-- ═══════════════ BIO ═══════════════ -->
+
+  <!-- ═══════════════════════════════════════
+       BIO — presentación
+       ═══════════════════════════════════════ -->
   <main>
     <p class="bio">
       Soy un estudiante de derecho en el camino del Derecho Civil con intereses paralelos en
@@ -183,6 +351,104 @@
       así también con mi experiencia en el desarrollo de software para construir herramientas
       de productividad y automatización de procesos jurídicos.
     </p>
+
+
+    <!-- ═══════════════════════════════════════
+         PROYECTOS
+         ═══════════════════════════════════════ -->
+    <section class="projects-section" aria-label="Proyectos personales">
+
+      <h2 class="section-title">Proyectos</h2>
+
+      <!-- ─────────────────────────────────────
+           GRID DE TARJETAS
+           Para AGREGAR una tarjeta: copia un bloque
+           <a class="card"> ... </a> y pégalo aquí.
+           Para QUITAR una tarjeta: borra el bloque completo.
+           ───────────────────────────────────── -->
+      <div class="cards-grid">
+
+
+        <!-- ╔══════════════════════════════╗
+             ║  TARJETA 1                   ║
+             ╚══════════════════════════════╝
+             href       → URL del proyecto (GitHub, demo, etc.)
+             card__cover img src → ruta de la imagen o GIF de portada
+             card__title → nombre del proyecto
+             .tag        → cada etiqueta; cambia --tag-color con cualquier
+                           variable Solarized o un hex directo            -->
+        <a class="card" href="https://github.com/" target="_blank" rel="noopener">
+          <div class="card__cover">
+            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/588a44195922117.66168b374ece8.gif"
+                 alt="Portada proyecto 1" />
+          </div>
+          <div class="card__footer">
+            <span class="card__title">Automatizador de contratos</span>
+            <div class="card__tags">
+              <span class="tag" style="--tag-color: var(--sol-blue)">Python</span>
+              <span class="tag" style="--tag-color: var(--sol-cyan)">Derecho</span>
+              <span class="tag" style="--tag-color: var(--sol-green)">CLI</span>
+            </div>
+          </div>
+        </a><!-- fin tarjeta 1 -->
+
+
+        <!-- ╔══════════════════════════════╗
+             ║  TARJETA 2                   ║
+             ╚══════════════════════════════╝ -->
+        <a class="card" href="https://github.com/" target="_blank" rel="noopener">
+          <div class="card__cover">
+            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/588a44195922117.66168b374ece8.gif"
+                 alt="Portada proyecto 2" />
+          </div>
+          <div class="card__footer">
+            <span class="card__title">Gestor de jurisprudencia</span>
+            <div class="card__tags">
+              <span class="tag" style="--tag-color: var(--sol-violet)">JavaScript</span>
+              <span class="tag" style="--tag-color: var(--sol-yellow)">Base de datos</span>
+            </div>
+          </div>
+        </a><!-- fin tarjeta 2 -->
+
+
+        <!-- ╔══════════════════════════════╗
+             ║  TARJETA 3                   ║
+             ╚══════════════════════════════╝ -->
+        <a class="card" href="https://github.com/" target="_blank" rel="noopener">
+          <div class="card__cover">
+            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/588a44195922117.66168b374ece8.gif"
+                 alt="Portada proyecto 3" />
+          </div>
+          <div class="card__footer">
+            <span class="card__title">Analizador de sentencias</span>
+            <div class="card__tags">
+              <span class="tag" style="--tag-color: var(--sol-red)">NLP</span>
+              <span class="tag" style="--tag-color: var(--sol-orange)">Rust</span>
+            </div>
+          </div>
+        </a><!-- fin tarjeta 3 -->
+
+
+        <!-- ╔══════════════════════════════╗
+             ║  TARJETA 4  (segunda fila)   ║
+             ╚══════════════════════════════╝ -->
+        <a class="card" href="https://github.com/" target="_blank" rel="noopener">
+          <div class="card__cover">
+            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/588a44195922117.66168b374ece8.gif"
+                 alt="Portada proyecto 4" />
+          </div>
+          <div class="card__footer">
+            <span class="card__title">Asistente filosófico</span>
+            <div class="card__tags">
+              <span class="tag" style="--tag-color: var(--sol-magenta)">LLM</span>
+              <span class="tag" style="--tag-color: var(--sol-cyan)">Filosofía</span>
+            </div>
+          </div>
+        </a><!-- fin tarjeta 4 -->
+
+
+      </div><!-- fin .cards-grid -->
+    </section>
   </main>
 
 </body>
