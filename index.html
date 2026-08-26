@@ -55,22 +55,93 @@
     /* ════════════════════════════════════════════
        HERO — banner principal con GIF de fondo
        ════════════════════════════════════════════ */
+
+    /*
+    ┌─────────────────────────────────────────────────────────────────┐
+    │  CÓMO RECORTAR EL GIF DEL HERO (ancho y alto)                  │
+    │                                                                 │
+    │  El truco es simple: el contenedor (.hero) actúa como una      │
+    │  "ventana" que muestra solo una parte del GIF.                  │
+    │  Con "overflow: hidden" todo lo que sobresalga se oculta.       │
+    │                                                                 │
+    │  ── RECORTAR EL ANCHO ──────────────────────────────────────── │
+    │  Cambia el valor de "max-width" en .hero                        │
+    │  • max-width: 1200px  → muestra el ancho completo (actual)      │
+    │  • max-width: 900px   → recorta los laterales                   │
+    │  • max-width: 600px   → recorta bastante (solo la parte central)│
+    │  • max-width: 400px   → muestra solo el centro del GIF          │
+    │                                                                 │
+    │  ── RECORTAR EL ALTO ───────────────────────────────────────── │
+    │  Cambia el valor de "height" en .hero                           │
+    │  (Si no existe la propiedad, agrégala tú mismo)                 │
+    │  • height: 400px  → corta el GIF a 400px de alto               │
+    │  • height: 300px  → más recortado (recomendado para empezar)    │
+    │  • height: 200px  → muy recortado, solo una franja              │
+    │  • height: 500px  → deja ver más del GIF verticalmente          │
+    │                                                                 │
+    │  ── CONTROLAR QUÉ PARTE DEL GIF SE VE ─────────────────────── │
+    │  Usa "object-position" en .hero__bg para mover el GIF           │
+    │  dentro de la ventana (como correr una persiana):               │
+    │  • object-position: center center  → muestra el centro (actual) │
+    │  • object-position: top center     → muestra la parte de arriba │
+    │  • object-position: bottom center  → muestra la parte de abajo  │
+    │  • object-position: center left    → muestra el lado izquierdo  │
+    │  • object-position: center right   → muestra el lado derecho    │
+    │                                                                 │
+    │  ── EJEMPLO RÁPIDO ─────────────────────────────────────────── │
+    │  Si quieres un banner más bajo, cambia el .hero así:            │
+    │    .hero {                                                       │
+    │      max-width: 1200px;   ← ancho (no cambies si lo quieres     │
+    │                              a todo lo ancho)                   │
+    │      height: 300px;       ← AGREGA ESTA LÍNEA para recortar     │
+    │    }                                                             │
+    │  Y en .hero__bg agrega:                                          │
+    │      object-position: center center;  ← qué parte ver del GIF  │
+    └─────────────────────────────────────────────────────────────────┘
+    */
+
     .hero {
       position: relative;
       width: 100%;
+
+      /* ▼ ANCHO DEL HERO: cambia este número para recortar los laterales
+            1200px = ancho completo (predeterminado)
+            Baja el número para "acercar" el recorte hacia el centro */
       max-width: 1200px;
+
+      /* ▼ ALTO DEL HERO: descomenta (quita la doble barra //) y ajusta
+            el número para recortar la parte de arriba o abajo del GIF.
+            Por ejemplo: height: 300px;
+            Si lo dejas comentado, el GIF se muestra en su altura original */
+      /* height: 300px; */
+
       margin: 2rem auto 0;
       border: 2px solid var(--bg-highlight);
       border-radius: 4px;
-      overflow: hidden;
+      overflow: hidden;     /* ← esto es lo que "esconde" las partes recortadas */
       background: var(--bg-highlight);
     }
 
     .hero__bg {
       display: block;
       width: 100%;
-      height: auto;
+
+      /* ▼ Cuando defines "height" en .hero, cambia "height: auto" por "height: 100%"
+            para que el GIF llene todo el alto del contenedor.
+            Si no defines height en .hero, deja "height: auto" como está. */
+      height: 300;
+
       object-fit: cover;
+
+      /* ▼ POSICIÓN DEL RECORTE: controla qué parte del GIF se muestra.
+            Valores posibles (puedes combinarse):
+              "center center"  → centro del GIF (predeterminado)
+              "top center"     → parte superior del GIF
+              "bottom center"  → parte inferior del GIF
+              "center left"    → lado izquierdo del GIF
+              "center right"   → lado derecho del GIF */
+      object-position: center center;
+
       image-rendering: pixelated;
     }
 
@@ -191,8 +262,9 @@
        TARJETA INDIVIDUAL
        ════════════════════════════════════════════ */
     .card {
-      /* Tamaño fijo — ajusta height si lo necesitas */
-      height: 240px;
+      /* Tamaño fijo — aumentado de 240px a 290px para dar espacio a la descripción.
+         Si tus descripciones son largas, sube este número (ej: 310px). */
+      height: 290px;
       position: relative;
       display: flex;
       flex-direction: column;
@@ -266,6 +338,25 @@
       letter-spacing: 0.02em;
     }
 
+    /* — Descripción del proyecto —
+       Aparece debajo del título, dentro del footer de la tarjeta.
+       Para escribir la descripción de un proyecto, busca la tarjeta
+       en el HTML y agrega dentro de .card__footer, después de .card__title:
+           <p class="card__desc">Tu descripción aquí.</p>
+       Si no pones una descripción en una tarjeta, simplemente no aparece nada.  */
+    .card__desc {
+      font-size: 0.68rem;
+      font-weight: 400;
+      color: var(--sol-base00);      /* texto en gris suave */
+      line-height: 1.45;
+      margin-top: 0.2rem;
+      /* Limita a 2 líneas y agrega "..." si el texto es muy largo */
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
     /* — Etiquetas — */
     .card__tags {
       display: flex;
@@ -301,11 +392,11 @@
        ════════════════════════════════════════════ */
     @media (max-width: 680px) {
       .cards-grid { grid-template-columns: repeat(2, 1fr); }
-      .card { height: 210px; }
+      .card { height: 270px; }
     }
     @media (max-width: 420px) {
       .cards-grid { grid-template-columns: 1fr; }
-      .card { height: 200px; }
+      .card { height: 260px; }
     }
     @media (max-width: 600px) {
       .hero { margin: 1rem auto 0; }
@@ -384,6 +475,9 @@
           </div>
           <div class="card__footer">
             <span class="card__title">Centro Universitario Evgeny Pashulanis</span>
+            <!-- ▼ DESCRIPCIÓN: escribe aquí un resumen breve del proyecto.
+                 Máximo unas 2 líneas. Si no quieres descripción, borra esta línea completa. -->
+            <p class="card__desc">Blog académico de teoría jurídica y doctrina del Derecho Civil y Procesal Civil, orientado a estudiantes universitarios.</p>
             <div class="card__tags">
               <span class="tag" style="--tag-color: var(--sol-orange)">HTML</span>
               <span class="tag" style="--tag-color: var(--sol-red)">Derecho Civil</span>
@@ -404,6 +498,9 @@
           </div>
           <div class="card__footer">
             <span class="card__title">Gestor de jurisprudencia</span>
+            <!-- ▼ DESCRIPCIÓN: escribe aquí un resumen breve del proyecto.
+                 Máximo unas 2 líneas. Si no quieres descripción, borra esta línea completa. -->
+            <p class="card__desc">Herramienta para organizar y consultar sentencias y resoluciones judiciales de forma rápida.</p>
             <div class="card__tags">
               <span class="tag" style="--tag-color: var(--sol-violet)">JavaScript</span>
               <span class="tag" style="--tag-color: var(--sol-yellow)">Base de datos</span>
@@ -422,6 +519,9 @@
           </div>
           <div class="card__footer">
             <span class="card__title">Analizador de sentencias</span>
+            <!-- ▼ DESCRIPCIÓN: escribe aquí un resumen breve del proyecto.
+                 Máximo unas 2 líneas. Si no quieres descripción, borra esta línea completa. -->
+            <p class="card__desc">Procesamiento de lenguaje natural aplicado al análisis automático de resoluciones del poder judicial.</p>
             <div class="card__tags">
               <span class="tag" style="--tag-color: var(--sol-red)">NLP</span>
               <span class="tag" style="--tag-color: var(--sol-orange)">Rust</span>
@@ -440,6 +540,9 @@
           </div>
           <div class="card__footer">
             <span class="card__title">Asistente filosófico</span>
+            <!-- ▼ DESCRIPCIÓN: escribe aquí un resumen breve del proyecto.
+                 Máximo unas 2 líneas. Si no quieres descripción, borra esta línea completa. -->
+            <p class="card__desc">Chatbot entrenado con textos de filosofía continental para explorar argumentos y corrientes de pensamiento.</p>
             <div class="card__tags">
               <span class="tag" style="--tag-color: var(--sol-magenta)">LLM</span>
               <span class="tag" style="--tag-color: var(--sol-cyan)">Filosofía</span>
