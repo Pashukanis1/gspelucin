@@ -13,18 +13,14 @@
        TOKENS — paleta Solarized completa
        ════════════════════════════════════════════ */
     :root {
-      /* Dark-mode backgrounds */
       --sol-base03:  #002b36;
       --sol-base02:  #073642;
-      /* Content (dark) */
       --sol-base01:  #586e75;
       --sol-base00:  #657b83;
       --sol-base0:   #839496;
       --sol-base1:   #93a1a1;
-      /* Light-mode backgrounds */
       --sol-base2:   #eee8d5;
       --sol-base3:   #fdf6e3;
-      /* Accent colors */
       --sol-yellow:  #b58900;
       --sol-orange:  #cb4b16;
       --sol-red:     #dc322f;
@@ -34,12 +30,24 @@
       --sol-cyan:    #2aa198;
       --sol-green:   #859900;
 
-      /* Aliases semánticos usados en todo el sitio */
-      --bg:           var(--sol-base3);   /* fondo principal */
-      --bg-highlight: var(--sol-base2);   /* fondo secundario / bordes */
-      --text:         var(--sol-base01);  /* texto principal */
-      --accent:       var(--sol-red);     /* color de acento (nombre, links) */
-      --link-bar-bg:  var(--sol-base2);   /* fondo barra de redes */
+      --bg:           var(--sol-base3);
+      --bg-highlight: var(--sol-base2);
+      --text:         var(--sol-base01);
+      --text-opaque:  var(--sol-base00);
+      --accent:       var(--sol-red);
+      --link-bar-bg:  var(--sol-base2);
+      --toggle-bg:    var(--sol-base2);
+    }
+
+    /* ════════════════════════════════════════════
+       MODO OSCURO — solo fondo, texto y texto opaco.
+       Los colores de acento (--accent, tags, etc.) no cambian.
+       ════════════════════════════════════════════ */
+    html[data-theme="dark"] {
+      --bg:          #073642;
+      --text:        #93a1a1;
+      --text-opaque: #839496;
+      --toggle-bg:   #002b36;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -49,111 +57,43 @@
       background: var(--bg);
       color: var(--text);
       line-height: 1.7;
+      transition: background-color 0.25s ease, color 0.25s ease;
     }
 
 
     /* ════════════════════════════════════════════
        HERO — banner principal con GIF de fondo
        ════════════════════════════════════════════ */
-
-    /*
-    ┌─────────────────────────────────────────────────────────────────┐
-    │  CÓMO RECORTAR EL GIF DEL HERO (ancho y alto)                  │
-    │                                                                 │
-    │  El truco es simple: el contenedor (.hero) actúa como una      │
-    │  "ventana" que muestra solo una parte del GIF.                  │
-    │  Con "overflow: hidden" todo lo que sobresalga se oculta.       │
-    │                                                                 │
-    │  ── RECORTAR EL ANCHO ──────────────────────────────────────── │
-    │  Cambia el valor de "max-width" en .hero                        │
-    │  • max-width: 1200px  → muestra el ancho completo (actual)      │
-    │  • max-width: 900px   → recorta los laterales                   │
-    │  • max-width: 600px   → recorta bastante (solo la parte central)│
-    │  • max-width: 400px   → muestra solo el centro del GIF          │
-    │                                                                 │
-    │  ── RECORTAR EL ALTO ───────────────────────────────────────── │
-    │  Cambia el valor de "height" en .hero                           │
-    │  (Si no existe la propiedad, agrégala tú mismo)                 │
-    │  • height: 400px  → corta el GIF a 400px de alto               │
-    │  • height: 300px  → más recortado (recomendado para empezar)    │
-    │  • height: 200px  → muy recortado, solo una franja              │
-    │  • height: 500px  → deja ver más del GIF verticalmente          │
-    │                                                                 │
-    │  ── CONTROLAR QUÉ PARTE DEL GIF SE VE ─────────────────────── │
-    │  Usa "object-position" en .hero__bg para mover el GIF           │
-    │  dentro de la ventana (como correr una persiana):               │
-    │  • object-position: center center  → muestra el centro (actual) │
-    │  • object-position: top center     → muestra la parte de arriba │
-    │  • object-position: bottom center  → muestra la parte de abajo  │
-    │  • object-position: center left    → muestra el lado izquierdo  │
-    │  • object-position: center right   → muestra el lado derecho    │
-    │                                                                 │
-    │  ── EJEMPLO RÁPIDO ─────────────────────────────────────────── │
-    │  Si quieres un banner más bajo, cambia el .hero así:            │
-    │    .hero {                                                       │
-    │      max-width: 1200px;   ← ancho (no cambies si lo quieres     │
-    │                              a todo lo ancho)                   │
-    │      height: 300px;       ← AGREGA ESTA LÍNEA para recortar     │
-    │    }                                                             │
-    │  Y en .hero__bg agrega:                                          │
-    │      object-position: center center;  ← qué parte ver del GIF  │
-    └─────────────────────────────────────────────────────────────────┘
-    */
-
     .hero {
       position: relative;
       width: 100%;
-
-      /* ▼ ANCHO DEL HERO: cambia este número para recortar los laterales
-            1200px = ancho completo (predeterminado)
-            Baja el número para "acercar" el recorte hacia el centro */
       max-width: 1200px;
-
-      /* ▼ ALTO DEL HERO: descomenta (quita la doble barra //) y ajusta
-            el número para recortar la parte de arriba o abajo del GIF.
-            Por ejemplo: height: 300px;
-            Si lo dejas comentado, el GIF se muestra en su altura original */
-      /* height: 300px; */
-
       margin: 2rem auto 0;
       border: 2px solid var(--bg-highlight);
       border-radius: 4px;
-      overflow: hidden;     /* ← esto es lo que "esconde" las partes recortadas */
+      overflow: hidden;
       background: var(--bg-highlight);
     }
 
     .hero__bg {
       display: block;
       width: 100%;
-
-      /* ▼ Cuando defines "height" en .hero, cambia "height: auto" por "height: 100%"
-            para que el GIF llene todo el alto del contenedor.
-            Si no defines height en .hero, deja "height: auto" como está. */
-      height: ;
-
+      height: 300px;
       object-fit: cover;
-
-      /* ▼ POSICIÓN DEL RECORTE: controla qué parte del GIF se muestra.
-            Valores posibles (puedes combinarse):
-              "center center"  → centro del GIF (predeterminado)
-              "top center"     → parte superior del GIF
-              "bottom center"  → parte inferior del GIF
-              "center left"    → lado izquierdo del GIF
-              "center right"   → lado derecho del GIF */
-      object-position: center center;
-
       image-rendering: pixelated;
     }
 
+    /* Overlay centrado vertical y horizontalmente — sin fondo propio para no tapar el GIF */
     .hero__title-overlay {
       position: absolute;
-      top: 0; left: 0; right: 0;
-      padding: 1.1rem 1.4rem 0.5rem;
-      background: linear-gradient(
-        to bottom,
-        rgba(253,246,227,0.72) 0%,
-        rgba(253,246,227,0) 100%
-      );
+      top: 0; left: 0; right: 0; bottom: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 1.5rem;
+      background: transparent;   /* ← sin fondo: el GIF se ve limpio */
     }
 
     .hero__name {
@@ -162,28 +102,19 @@
       color: var(--accent);
       letter-spacing: 0.04em;
       line-height: 1.1;
-      text-shadow: 1px 1px 0 rgba(253,246,227,0.8);
+      /* Fondo semitransparente solo detrás del nombre, no en todo el banner */
+      background: rgba(253,246,227,0.72);
+      padding: 0.1rem 0.7rem;
     }
 
-    .hero__subtitle {
-      display: inline-block;
-      margin-top: 0.15rem;
-      font-size: clamp(0.75rem, 2vw, 0.95rem);
-      font-weight: 500;
-      color: var(--accent);
-      text-decoration: underline;
-      text-underline-offset: 3px;
-      letter-spacing: 0.02em;
-    }
-
+    /* Los links van dentro del overlay, pegados debajo del nombre */
     .hero__links {
-      position: absolute;
-      bottom: 0; right: 0;
-      background: var(--link-bar-bg);
-      padding: 0.3rem 0.75rem;
-      font-size: 0.82rem;
+      margin-top: 0;
+      font-size: clamp(0.72rem, 1.8vw, 0.88rem);
       font-weight: 500;
       color: var(--accent);
+      background: rgba(238,232,213,0.72);
+      padding: 0.25rem 0.85rem;
     }
     .hero__links a {
       color: var(--accent);
@@ -215,41 +146,137 @@
 
 
     /* ════════════════════════════════════════════
-       SECCIÓN PROYECTOS — encabezado estilo TUI
+       SECCIÓN DE VENTANAS — Proyectos / Idiomas / Logros
        ════════════════════════════════════════════ */
-    .projects-section {
+    .windows-section {
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 1rem 3rem;
     }
 
-    /* Título de sección con línea decorativa estilo TUI */
-    .section-title {
+    /* — Pestañas de ventana (estilo gestor de ventanas / multiplexor) — */
+    .window-tabs {
       display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      font-size: 0.82rem;
-        font-weight: 600;
-      color: var(--accent);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+      gap: 2px;
     }
-    /* Línea horizontal que se extiende hasta el borde */
-    .section-title::before { content: "┌─"; white-space: pre; }
-    .section-title::after  {
-      content: "";
-      flex: 1;
-      height: 1px;
+
+    .window-tab {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.76rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      color: var(--text-opaque);
       background: var(--bg-highlight);
-      border-top: 1px solid var(--sol-base01);
-      opacity: 0.4;
+      border: 1px solid var(--sol-base01);
+      border-bottom: none;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: opacity 0.15s, color 0.15s;
+    }
+    .window-tab:hover { opacity: 0.9; }
+    .window-tab.is-active {
+      opacity: 1;
+      color: var(--accent);
+      background: var(--bg);
+      position: relative;
+      top: 1px;
+    }
+    .window-tab__index { opacity: 0.6; margin-right: 0.35rem; }
+
+    /* — Ventana — */
+    .window {
+      display: none;
+      border: 1px solid var(--sol-base01);
+      background: var(--bg);
+    }
+    .window.is-active { display: block; }
+
+    .window__body { padding: 1.25rem; }
+
+    /* — Ventana Idiomas — */
+    .lang-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .lang-item__head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.35rem;
+    }
+    .lang-item__level {
+      font-size: 0.68rem;
+      font-weight: 400;
+      color: var(--text-opaque);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .lang-bar {
+      height: 6px;
+      background: var(--bg-highlight);
+      border: 1px solid var(--sol-base01);
+      position: relative;
+      overflow: hidden;
+    }
+    .lang-bar__fill {
+      position: absolute;
+      inset: 0;
+      width: var(--pct, 50%);
+      background: var(--tag-color, var(--accent));
+    }
+
+    /* — Ventana Logros — */
+    .achievements-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .achievement {
+      display: flex;
+      gap: 0.7rem;
+      align-items: flex-start;
+      padding: 0.7rem 0.85rem;
+      border: 1px solid var(--sol-base01);
+      background: var(--bg-highlight);
+    }
+    .achievement__marker {
+      color: var(--accent);
+      font-weight: 700;
+      line-height: 1.5;
+    }
+    .achievement__title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .achievement__date {
+      font-size: 0.65rem;
+      font-weight: 500;
+      color: var(--text-opaque);
+      margin-left: 0.5rem;
+      white-space: nowrap;
+    }
+    .achievement__desc {
+      font-size: 0.72rem;
+      color: var(--text-opaque);
+      margin-top: 0.2rem;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 600px) {
+      .window-tab { font-size: 0.68rem; padding: 0.45rem 0.7rem; }
+      .window__body { padding: 1rem; }
     }
 
 
     /* ════════════════════════════════════════════
        GRID DE TARJETAS
-       3 columnas fijas que respetan el max-width del sitio
        ════════════════════════════════════════════ */
     .cards-grid {
       display: grid;
@@ -262,20 +289,13 @@
        TARJETA INDIVIDUAL
        ════════════════════════════════════════════ */
     .card {
-      /* Tamaño fijo — aumentado de 240px a 290px para dar espacio a la descripción.
-         Si tus descripciones son largas, sube este número (ej: 310px). */
-      height: 290px;
+      height: 300px;
       position: relative;
       display: flex;
       flex-direction: column;
       text-decoration: none;
       color: inherit;
-
-      /* Borde estilo TUI (doble línea simulada con box-shadow) */
       border: 1px solid var(--sol-base01);
-      outline: 1px solid var(--bg-highlight);
-      outline-offset: -3px;
-
       overflow: hidden;
       background: var(--bg-highlight);
       cursor: pointer;
@@ -285,7 +305,6 @@
       border-color: var(--accent);
       transform: translateY(-2px);
     }
-    /* Esquina TUI decorativa top-left */
     .card::before {
       content: "┌";
       position: absolute;
@@ -297,10 +316,9 @@
       z-index: 2;
     }
 
-    /* — Portada (imagen / gif) — */
     .card__cover {
       width: 100%;
-      height: 140px;          /* altura de la imagen; el resto lo ocupa el footer */
+      height: 140px;
       flex-shrink: 0;
       overflow: hidden;
       background: var(--sol-base02);
@@ -310,13 +328,12 @@
       height: 100%;
       object-fit: cover;
       object-position: center;
-      image-rendering: pixelated;  /* mantiene el look pixel-art en GIFs */
+      image-rendering: pixelated;
       display: block;
       transition: transform 0.2s;
     }
     .card:hover .card__cover img { transform: scale(1.03); }
 
-    /* — Footer de la tarjeta (nombre + etiquetas) — */
     .card__footer {
       flex: 1;
       display: flex;
@@ -327,7 +344,6 @@
       background: var(--bg);
     }
 
-    /* Nombre del proyecto */
     .card__title {
       font-size: 0.78rem;
       font-weight: 600;
@@ -339,25 +355,22 @@
     }
 
     /* — Descripción del proyecto —
-       Aparece debajo del título, dentro del footer de la tarjeta.
-       Para escribir la descripción de un proyecto, busca la tarjeta
-       en el HTML y agrega dentro de .card__footer, después de .card__title:
+       Para escribir la descripción de un proyecto, agrega dentro de .card__footer,
+       después de .card__title:
            <p class="card__desc">Tu descripción aquí.</p>
-       Si no pones una descripción en una tarjeta, simplemente no aparece nada.  */
+       Si no pones descripción, no aparece nada. */
     .card__desc {
       font-size: 0.68rem;
       font-weight: 400;
-      color: var(--sol-base00);      /* texto en gris suave */
+      color: var(--text-opaque);
       line-height: 1.45;
       margin-top: 0.2rem;
-      /* Limita a 2 líneas y agrega "..." si el texto es muy largo */
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
 
-    /* — Etiquetas — */
     .card__tags {
       display: flex;
       flex-wrap: wrap;
@@ -365,12 +378,6 @@
       margin-top: 0.3rem;
     }
 
-    /*
-      Etiqueta base.
-      El color de fondo se aplica con el atributo style en el HTML,
-      por ejemplo: style="--tag-color: var(--sol-blue)"
-      El texto siempre es blanco/oscuro según contraste.
-    */
     .tag {
       display: inline-block;
       padding: 0.1rem 0.4rem;
@@ -381,7 +388,6 @@
       background: var(--tag-color, var(--sol-base01));
       color: var(--sol-base3);
       border: 1px solid transparent;
-      /* borde ligeramente más oscuro que el fondo */
       border-color: color-mix(in srgb, var(--tag-color, var(--sol-base01)) 70%, black);
       white-space: nowrap;
     }
@@ -392,42 +398,136 @@
        ════════════════════════════════════════════ */
     @media (max-width: 680px) {
       .cards-grid { grid-template-columns: repeat(2, 1fr); }
-      .card { height: 270px; }
+      .card { height: 210px; }
     }
     @media (max-width: 420px) {
       .cards-grid { grid-template-columns: 1fr; }
-      .card { height: 260px; }
+      .card { height: 200px; }
     }
     @media (max-width: 600px) {
       .hero { margin: 1rem auto 0; }
-      .hero__title-overlay { padding: 0.75rem 0.9rem 0.4rem; }
-      .hero__links { font-size: 0.72rem; padding: 0.25rem 0.5rem; }
+      .hero__title-overlay { padding: 1rem; }
+      .hero__links { font-size: 0.68rem; padding: 0.2rem 0.6rem; }
       .bio { padding: 1rem 0.9rem 1.5rem; }
     }
     @media (prefers-reduced-motion: reduce) {
       .hero__bg, .card__cover img { animation: none; transition: none; }
+    }
+
+    /* ════════════════════════════════════════════
+       CONTROLES LATERALES — tema + idioma, fijos en el lateral derecho
+       ════════════════════════════════════════════ */
+    .side-controls {
+      position: fixed;
+      top: 50%;
+      right: 1rem;
+      transform: translateY(-50%);
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.5rem;
+    }
+
+    .theme-toggle,
+    .lang-toggle {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: var(--accent);
+      background: var(--toggle-bg);
+      border: 1px solid var(--sol-base01);
+      border-radius: 4px;
+      padding: 0.4rem 0.55rem;
+      cursor: pointer;
+      line-height: 1;
+      transition: border-color 0.15s, transform 0.12s, background-color 0.2s;
+    }
+    .theme-toggle:hover,
+    .lang-toggle:hover {
+      border-color: var(--accent);
+    }
+    .theme-toggle:active,
+    .lang-toggle:active {
+      transform: scale(0.94);
+    }
+
+    /* — Selector de idioma — */
+    .lang-switch { position: relative; }
+
+    .lang-menu {
+      position: absolute;
+      bottom: calc(100% + 0.4rem);
+      right: 0;
+      min-width: 130px;
+      list-style: none;
+      background: var(--bg);
+      border: 1px solid var(--sol-base01);
+      border-radius: 4px;
+      overflow: hidden;
+      z-index: 60;
+    }
+    .lang-menu[hidden] { display: none; }
+    .lang-menu__option {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--text-opaque);
+      padding: 0.45rem 0.65rem;
+      cursor: pointer;
+      border-bottom: 1px solid var(--sol-base01);
+      transition: background-color 0.15s, color 0.15s;
+    }
+    .lang-menu__option:last-child { border-bottom: none; }
+    .lang-menu__option:hover { background: var(--bg-highlight); color: var(--accent); }
+    .lang-menu__option[aria-selected="true"] { color: var(--accent); font-weight: 600; }
+
+    @media (max-width: 600px) {
+      .side-controls {
+        top: auto;
+        bottom: 1rem;
+        right: 0.75rem;
+        transform: none;
+      }
     }
   </style>
 </head>
 <body>
 
   <!-- ═══════════════════════════════════════
+       CONTROLES — tema (claro/oscuro) e idioma
+       ═══════════════════════════════════════ -->
+  <div class="side-controls">
+    <button id="themeToggle" class="theme-toggle" type="button" data-i18n-aria="aria.theme" aria-label="Cambiar tema">[🌙]</button>
+
+    <div class="lang-switch">
+      <button id="langToggle" class="lang-toggle" type="button" aria-haspopup="listbox" aria-expanded="false" data-i18n-aria="aria.lang" aria-label="Cambiar idioma">[ES]</button>
+      <ul id="langMenu" class="lang-menu" role="listbox" aria-label="Idioma" hidden>
+        <li class="lang-menu__option" role="option" data-lang="es" aria-selected="true">Español</li>
+        <li class="lang-menu__option" role="option" data-lang="en" aria-selected="false">English</li>
+        <li class="lang-menu__option" role="option" data-lang="zh" aria-selected="false">中文</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
        HERO — banner principal
        ═══════════════════════════════════════ -->
   <header class="hero">
     <img
+      id="heroBg"
       class="hero__bg"
-      src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/588a44195922117.66168b374ece8.gif"
-      alt="Ilustración pixel art de un pueblo medieval con montañas al fondo"
+      src="https://i.redd.it/n9xyli2hmrze1.gif"
+      alt="Pixel art"
       loading="eager"
     />
     <div class="hero__title-overlay">
       <h1 class="hero__name">Guillermo Spelucin</h1>
-      <p class="hero__subtitle">Estudiante de Derecho</p>
+      <nav class="hero__links" aria-label="Redes y contacto">
+        [<a href="mailto:guillermospelucindaza@gmail.com">Mail</a><span class="sep">|</span><a href="https://github.com/" target="_blank" rel="noopener">Github</a><span class="sep">|</span><a href="https://linkedin.com/in/" target="_blank" rel="noopener">Linkedin</a>]
+      </nav>
     </div>
-    <nav class="hero__links" aria-label="Redes y contacto">
-      [<a href="mailto:tucorreo@ejemplo.com">Mail</a><span class="sep">|</span><a href="https://github.com/" target="_blank" rel="noopener">Github</a><span class="sep">|</span><a href="https://linkedin.com/in/" target="_blank" rel="noopener">Linkedin</a>]
-    </nav>
   </header>
 
 
@@ -435,7 +535,7 @@
        BIO — presentación
        ═══════════════════════════════════════ -->
   <main>
-    <p class="bio">
+    <p class="bio" data-i18n="bio">
       Soy un estudiante de derecho en el camino del Derecho Civil con intereses paralelos en
       los idiomas, filosofía y software. Combino mi conocimiento del Derecho con habilidades
       de resolución de problemas y un profundo entendimiento de la lógica y la argumentación,
@@ -445,115 +545,474 @@
 
 
     <!-- ═══════════════════════════════════════
-         PROYECTOS
+         SECCIÓN DE VENTANAS — Proyectos / Idiomas / Logros
          ═══════════════════════════════════════ -->
-    <section class="projects-section" aria-label="Proyectos personales">
-
-      <h2 class="section-title">Proyectos</h2>
+    <section class="windows-section" aria-label="Proyectos, idiomas y logros">
 
       <!-- ─────────────────────────────────────
-           GRID DE TARJETAS
-           Para AGREGAR una tarjeta: copia un bloque
-           <a class="card"> ... </a> y pégalo aquí.
-           Para QUITAR una tarjeta: borra el bloque completo.
+           PESTAÑAS — hacen visible una ventana a la vez.
+           data-window debe coincidir con el id de la ventana.
            ───────────────────────────────────── -->
-      <div class="cards-grid">
+      <div class="window-tabs" role="tablist">
+        <button class="window-tab is-active" role="tab" aria-selected="true" data-window="proyectos"><span class="window-tab__index">[1]</span><span data-i18n="tab.proyectos">proyectos</span></button>
+        <button class="window-tab" role="tab" aria-selected="false" data-window="idiomas"><span class="window-tab__index">[2]</span><span data-i18n="tab.idiomas">idiomas</span></button>
+        <button class="window-tab" role="tab" aria-selected="false" data-window="logros"><span class="window-tab__index">[3]</span><span data-i18n="tab.logros">logros</span></button>
+      </div>
+
+      <!-- ╔══════════════════════════════════════╗
+           ║  VENTANA 1 — PROYECTOS               ║
+           ╚══════════════════════════════════════╝ -->
+      <div class="window is-active" id="window-proyectos" role="tabpanel">
+        <div class="window__body">
+
+          <!-- ─────────────────────────────────────
+               GRID DE TARJETAS
+               Para AGREGAR una tarjeta: copia un bloque
+               <a class="card"> ... </a> y pégalo aquí.
+               Para QUITAR una tarjeta: borra el bloque completo.
+               ───────────────────────────────────── -->
+          <div class="cards-grid">
 
 
-        <!-- ╔══════════════════════════════╗
-             ║  TARJETA 1                   ║
-             ╚══════════════════════════════╝
-             href       → URL del proyecto (GitHub, demo, etc.)
-             card__cover img src → ruta de la imagen o GIF de portada
-             card__title → nombre del proyecto
-             .tag        → cada etiqueta; cambia --tag-color con cualquier
-                           variable Solarized o un hex directo            -->
-        <a class="card" href="https://cuepuniversitario.blogspot.com/" target="_blank" rel="noopener">
-          <div class="card__cover">
-            <img src="https://github.com/Pashukanis1/gspelucin/blob/main/Taller%20Evgeni%20Pashukanis.png?raw=true"
-                 alt="Portada proyecto 1" />
-          </div>
-          <div class="card__footer">
-            <span class="card__title">Centro Universitario Evgeny Pashulanis</span>
-            <!-- ▼ DESCRIPCIÓN: escribe aquí un resumen breve del proyecto.
-                 Máximo unas 2 líneas. Si no quieres descripción, borra esta línea completa. -->
-            <p class="card__desc">Blog académico de teoría jurídica y doctrina del Derecho Civil y Procesal Civil, orientado a estudiantes universitarios.</p>
-            <div class="card__tags">
-              <span class="tag" style="--tag-color: var(--sol-orange)">HTML</span>
-              <span class="tag" style="--tag-color: var(--sol-red)">Derecho Civil</span>
-              <span class="tag" style="--tag-color: var(--sol-red)">Derecho Procesal Civil</span>
-              <span class="tag" style="--tag-color: var(--sol-green)">Doctrina Jurídica</span>
+            <!-- ╔══════════════════════════════╗
+                 ║  TARJETA 1                   ║
+                 ╚══════════════════════════════╝
+                 href       → URL del proyecto (GitHub, demo, etc.)
+                 card__cover img src → ruta de la imagen o GIF de portada
+                 card__title → nombre del proyecto
+                 .tag        → cada etiqueta; cambia --tag-color con cualquier
+                               variable Solarized o un hex directo            -->
+            <a class="card" href="https://cuepuniversitario.blogspot.com/" target="_blank" rel="noopener">
+              <div class="card__cover">
+                <img src="https://github.com/Pashukanis1/gspelucin/blob/main/Taller%20Evgeni%20Pashukanis.png?raw=true"
+                     alt="Portada proyecto 1" />
+              </div>
+              <div class="card__footer">
+                <span class="card__title" data-i18n="card1.title">Centro Universitario Evgeny Pashulanis</span>
+                <!-- ▼ DESCRIPCIÓN: escribe aquí un resumen breve del proyecto.
+                     Máximo unas 2 líneas. Si no quieres descripción, borra esta línea completa. -->
+                <p class="card__desc" data-i18n="card1.desc">Blog académico de teoría jurídica y doctrina del Derecho Civil y Procesal Civil, orientado a estudiantes universitarios.</p>
+                <div class="card__tags">
+                  <span class="tag" style="--tag-color: var(--sol-orange)">HTML</span>
+                  <span class="tag" style="--tag-color: var(--sol-red)" data-i18n="tag.derecho-civil">Derecho Civil</span>
+                  <span class="tag" style="--tag-color: var(--sol-red)" data-i18n="tag.derecho-procesal-civil">Derecho Procesal Civil</span>
+                  <span class="tag" style="--tag-color: var(--sol-green)" data-i18n="tag.doctrina-juridica">Doctrina Jurídica</span>
+                </div>
+              </div>
+            </a><!-- fin tarjeta 1 -->
+
+
+            <!-- ╔══════════════════════════════╗
+                 ║  TARJETA 2                   ║
+                 ╚══════════════════════════════╝ -->
+            <a class="card" href="https://github.com/" target="_blank" rel="noopener">
+              <div class="card__cover">
+                <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/588a44195922117.66168b374ece8.gif"
+                     alt="Portada proyecto 2" />
+              </div>
+              <div class="card__footer">
+                <span class="card__title" data-i18n="card2.title">Gestor de jurisprudencia</span>
+                <!-- ▼ DESCRIPCIÓN: escribe aquí un resumen breve del proyecto.
+                     Máximo unas 2 líneas. Si no quieres descripción, borra esta línea completa. -->
+                <p class="card__desc" data-i18n="card2.desc">Herramienta para organizar y consultar sentencias y resoluciones judiciales de forma rápida.</p>
+                <div class="card__tags">
+                  <span class="tag" style="--tag-color: var(--sol-violet)">JavaScript</span>
+                  <span class="tag" style="--tag-color: var(--sol-yellow)" data-i18n="tag.base-datos">Base de datos</span>
+                </div>
+              </div>
+            </a><!-- fin tarjeta 2 -->
+
+
+            <!-- ╔══════════════════════════════╗
+                 ║  TARJETA 3                   ║
+                 ╚══════════════════════════════╝ -->
+            <a class="card" href="https://github.com/" target="_blank" rel="noopener">
+              <div class="card__cover">
+                <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/588a44195922117.66168b374ece8.gif"
+                     alt="Portada proyecto 3" />
+              </div>
+              <div class="card__footer">
+                <span class="card__title" data-i18n="card3.title">Analizador de sentencias</span>
+                <!-- ▼ DESCRIPCIÓN: escribe aquí un resumen breve del proyecto.
+                     Máximo unas 2 líneas. Si no quieres descripción, borra esta línea completa. -->
+                <p class="card__desc" data-i18n="card3.desc">Procesamiento de lenguaje natural aplicado al análisis automático de resoluciones del poder judicial.</p>
+                <div class="card__tags">
+                  <span class="tag" style="--tag-color: var(--sol-red)">NLP</span>
+                  <span class="tag" style="--tag-color: var(--sol-orange)">Rust</span>
+                </div>
+              </div>
+            </a><!-- fin tarjeta 3 -->
+
+
+            <!-- ╔══════════════════════════════╗
+                 ║  TARJETA 4  (segunda fila)   ║
+                 ╚══════════════════════════════╝ -->
+            <a class="card" href="https://github.com/" target="_blank" rel="noopener">
+              <div class="card__cover">
+                <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/588a44195922117.66168b374ece8.gif"
+                     alt="Portada proyecto 4" />
+              </div>
+              <div class="card__footer">
+                <span class="card__title" data-i18n="card4.title">Asistente filosófico</span>
+                <!-- ▼ DESCRIPCIÓN: escribe aquí un resumen breve del proyecto.
+                     Máximo unas 2 líneas. Si no quieres descripción, borra esta línea completa. -->
+                <p class="card__desc" data-i18n="card4.desc">Chatbot entrenado con textos de filosofía continental para explorar argumentos y corrientes de pensamiento.</p>
+                <div class="card__tags">
+                  <span class="tag" style="--tag-color: var(--sol-magenta)">LLM</span>
+                  <span class="tag" style="--tag-color: var(--sol-cyan)" data-i18n="tag.filosofia">Filosofía</span>
+                </div>
+              </div>
+            </a><!-- fin tarjeta 4 -->
+
+
+          </div><!-- fin .cards-grid -->
+        </div><!-- fin .window__body -->
+      </div><!-- fin ventana proyectos -->
+
+
+      <!-- ╔══════════════════════════════════════╗
+           ║  VENTANA 2 — IDIOMAS                 ║
+           ╚══════════════════════════════════════╝
+           CONTENIDO DE EJEMPLO — reemplázalo con tus idiomas reales.
+           Para cada idioma: cambia el nombre, el nivel (texto) y el
+           porcentaje --pct (0% a 100%) que llena la barra. --tag-color
+           es opcional, acepta cualquier variable Solarized o un hex. -->
+      <div class="window" id="window-idiomas" role="tabpanel" hidden>
+        <div class="window__body">
+          <div class="lang-list">
+
+            <div class="lang-item">
+              <div class="lang-item__head">
+                <span data-i18n="lang.es.name">Español</span>
+                <span class="lang-item__level" data-i18n="lang.es.level">Nativo</span>
+              </div>
+              <div class="lang-bar"><div class="lang-bar__fill" style="--pct: 100%; --tag-color: var(--sol-red)"></div></div>
             </div>
-          </div>
-        </a><!-- fin tarjeta 1 -->
 
-
-        <!-- ╔══════════════════════════════╗
-             ║  TARJETA 2                   ║
-             ╚══════════════════════════════╝ -->
-        <a class="card" href="https://github.com/" target="_blank" rel="noopener">
-          <div class="card__cover">
-            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/588a44195922117.66168b374ece8.gif"
-                 alt="Portada proyecto 2" />
-          </div>
-          <div class="card__footer">
-            <span class="card__title">Gestor de jurisprudencia</span>
-            <!-- ▼ DESCRIPCIÓN: escribe aquí un resumen breve del proyecto.
-                 Máximo unas 2 líneas. Si no quieres descripción, borra esta línea completa. -->
-            <p class="card__desc">Herramienta para organizar y consultar sentencias y resoluciones judiciales de forma rápida.</p>
-            <div class="card__tags">
-              <span class="tag" style="--tag-color: var(--sol-violet)">JavaScript</span>
-              <span class="tag" style="--tag-color: var(--sol-yellow)">Base de datos</span>
+            <div class="lang-item">
+              <div class="lang-item__head">
+                <span data-i18n="lang.en.name">Inglés</span>
+                <span class="lang-item__level" data-i18n="lang.en.level">Avanzado</span>
+              </div>
+              <div class="lang-bar"><div class="lang-bar__fill" style="--pct: 100%; --tag-color: var(--sol-blue)"></div></div>
             </div>
-          </div>
-        </a><!-- fin tarjeta 2 -->
 
-
-        <!-- ╔══════════════════════════════╗
-             ║  TARJETA 3                   ║
-             ╚══════════════════════════════╝ -->
-        <a class="card" href="https://github.com/" target="_blank" rel="noopener">
-          <div class="card__cover">
-            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/588a44195922117.66168b374ece8.gif"
-                 alt="Portada proyecto 3" />
-          </div>
-          <div class="card__footer">
-            <span class="card__title">Analizador de sentencias</span>
-            <!-- ▼ DESCRIPCIÓN: escribe aquí un resumen breve del proyecto.
-                 Máximo unas 2 líneas. Si no quieres descripción, borra esta línea completa. -->
-            <p class="card__desc">Procesamiento de lenguaje natural aplicado al análisis automático de resoluciones del poder judicial.</p>
-            <div class="card__tags">
-              <span class="tag" style="--tag-color: var(--sol-red)">NLP</span>
-              <span class="tag" style="--tag-color: var(--sol-orange)">Rust</span>
+            <div class="lang-item">
+              <div class="lang-item__head">
+                <span data-i18n="lang.zh.name">Chino</span>
+                <span class="lang-item__level" data-i18n="lang.zh.level">Básico</span>
+              </div>
+              <div class="lang-bar"><div class="lang-bar__fill" style="--pct: 30%; --tag-color: var(--sol-violet)"></div></div>
             </div>
-          </div>
-        </a><!-- fin tarjeta 3 -->
+
+          </div><!-- fin .lang-list -->
+        </div><!-- fin .window__body -->
+      </div><!-- fin ventana idiomas -->
 
 
-        <!-- ╔══════════════════════════════╗
-             ║  TARJETA 4  (segunda fila)   ║
-             ╚══════════════════════════════╝ -->
-        <a class="card" href="https://github.com/" target="_blank" rel="noopener">
-          <div class="card__cover">
-            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/588a44195922117.66168b374ece8.gif"
-                 alt="Portada proyecto 4" />
-          </div>
-          <div class="card__footer">
-            <span class="card__title">Asistente filosófico</span>
-            <!-- ▼ DESCRIPCIÓN: escribe aquí un resumen breve del proyecto.
-                 Máximo unas 2 líneas. Si no quieres descripción, borra esta línea completa. -->
-            <p class="card__desc">Chatbot entrenado con textos de filosofía continental para explorar argumentos y corrientes de pensamiento.</p>
-            <div class="card__tags">
-              <span class="tag" style="--tag-color: var(--sol-magenta)">LLM</span>
-              <span class="tag" style="--tag-color: var(--sol-cyan)">Filosofía</span>
+      <!-- ╔══════════════════════════════════════╗
+           ║  VENTANA 3 — LOGROS                  ║
+           ╚══════════════════════════════════════╝
+           CONTENIDO DE EJEMPLO — reemplázalo con tus logros reales.
+           Cada .achievement es un logro; borra o copia el bloque para
+           quitar o agregar más. -->
+      <div class="window" id="window-logros" role="tabpanel" hidden>
+        <div class="window__body">
+          <div class="achievements-list">
+
+            <div class="achievement">
+              <span class="achievement__marker">▹</span>
+              <div class="achievement__body">
+                <span class="achievement__title" data-i18n="ach1.title">Primer puesto - Rally de Ideas Jurídicas</span><span class="achievement__date" data-i18n="ach1.date">2023</span>
+                <p class="achievement__desc" data-i18n="ach1.desc">Reconocimiento por investigación sobre los nexos, limitaciones y contradicciones entre La Inteligencia Artificial y el Conocimiento</p>
+              </div>
             </div>
-          </div>
-        </a><!-- fin tarjeta 4 -->
 
+            <div class="achievement">
+              <span class="achievement__marker">▹</span>
+              <div class="achievement__body">
+                <span class="achievement__title" data-i18n="ach2.title">Tercio Superior UPN</span><span class="achievement__date" data-i18n="ach2.date">2023-Actualidad</span>
+                <p class="achievement__desc" data-i18n="ach2.desc">Perteneciente al tercio superior de excelencia universitaria</p>
+              </div>
+            </div>
 
-      </div><!-- fin .cards-grid -->
+          </div><!-- fin .achievements-list -->
+        </div><!-- fin .window__body -->
+      </div><!-- fin ventana logros -->
+
     </section>
   </main>
+
+  <!-- ═══════════════════════════════════════
+       SCRIPT — modo oscuro / modo claro
+       ═══════════════════════════════════════ -->
+  <script>
+    (function () {
+      var BANNER_DARK  = 'https://i.redd.it/scrunh2hmrze1.gif';
+      var BANNER_LIGHT = 'https://i.redd.it/n9xyli2hmrze1.gif';
+      var STORAGE_KEY   = 'theme-override'; // 'dark' | 'light' | null (sin override manual)
+
+      var root      = document.documentElement;
+      var toggleBtn = document.getElementById('themeToggle');
+      var heroBg    = document.getElementById('heroBg');
+
+      function isDarkHourNow() {
+        var now = new Date();
+        var minutes = now.getHours() * 60 + now.getMinutes();
+        var darkFrom = 18 * 60 + 30; // 18:30
+        var lightFrom = 6 * 60 + 30; // 06:30
+        // Modo oscuro entre 18:30 y 06:30 (cruzando medianoche)
+        return minutes >= darkFrom || minutes < lightFrom;
+      }
+
+      function applyTheme(isDark) {
+        if (isDark) {
+          root.setAttribute('data-theme', 'dark');
+          toggleBtn.textContent = '[☀️]';
+          heroBg.src = BANNER_DARK;
+        } else {
+          root.removeAttribute('data-theme');
+          toggleBtn.textContent = '[🌙]';
+          heroBg.src = BANNER_LIGHT;
+        }
+      }
+
+      function getOverride() {
+        try { return localStorage.getItem(STORAGE_KEY); }
+        catch (e) { return null; }
+      }
+
+      function setOverride(value) {
+        try {
+          if (value === null) localStorage.removeItem(STORAGE_KEY);
+          else localStorage.setItem(STORAGE_KEY, value);
+        } catch (e) { /* almacenamiento no disponible: seguimos sin persistir */ }
+      }
+
+      function refreshTheme() {
+        var override = getOverride();
+        if (override === 'dark')  { applyTheme(true);  return; }
+        if (override === 'light') { applyTheme(false); return; }
+        applyTheme(isDarkHourNow());
+      }
+
+      toggleBtn.addEventListener('click', function () {
+        var currentlyDark = root.getAttribute('data-theme') === 'dark';
+        var next = !currentlyDark;
+        setOverride(next ? 'dark' : 'light');
+        applyTheme(next);
+      });
+
+      refreshTheme();
+      // Revisa cada minuto por si cambia el tramo horario y no hay override manual activo
+      setInterval(refreshTheme, 60 * 1000);
+    })();
+  </script>
+
+  <!-- ═══════════════════════════════════════
+       SCRIPT — pestañas de ventanas (Proyectos / Idiomas / Logros)
+       ═══════════════════════════════════════ -->
+  <script>
+    (function () {
+      var tabs    = document.querySelectorAll('.window-tab');
+      var windows = document.querySelectorAll('.window');
+
+      tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          var target = tab.getAttribute('data-window');
+
+          tabs.forEach(function (t) {
+            var active = t === tab;
+            t.classList.toggle('is-active', active);
+            t.setAttribute('aria-selected', active ? 'true' : 'false');
+          });
+
+          windows.forEach(function (win) {
+            var active = win.id === 'window-' + target;
+            win.classList.toggle('is-active', active);
+            if (active) win.removeAttribute('hidden');
+            else win.setAttribute('hidden', '');
+          });
+        });
+      });
+    })();
+  </script>
+
+  <!-- ═══════════════════════════════════════
+       SCRIPT — selector de idioma (ES / EN / ZH)
+       ═══════════════════════════════════════ -->
+  <script>
+    (function () {
+      var STORAGE_KEY = 'lang-override';
+      var LABELS = { es: '[ES]', en: '[EN]', zh: '[中]' };
+
+      var translations = {
+        es: {
+          'aria.theme': 'Cambiar tema',
+          'aria.lang': 'Cambiar idioma',
+          'bio': 'Soy un estudiante de derecho en el camino del Derecho Civil con intereses paralelos en los idiomas, filosofía y software. Combino mi conocimiento del Derecho con habilidades de resolución de problemas y un profundo entendimiento de la lógica y la argumentación, así también con mi experiencia en el desarrollo de software para construir herramientas de productividad y automatización de procesos jurídicos.',
+          'tab.proyectos': 'proyectos',
+          'tab.idiomas': 'idiomas',
+          'tab.logros': 'logros',
+          'lang.es.name': 'Español', 'lang.es.level': 'Nativo',
+          'lang.en.name': 'Inglés', 'lang.en.level': 'Avanzado',
+          'lang.zh.name': 'Chino', 'lang.zh.level': 'Básico',
+          'card1.title': 'Centro Universitario Evgeny Pashulanis',
+          'card1.desc': 'Blog académico de teoría jurídica y doctrina del Derecho Civil y Procesal Civil, orientado a estudiantes universitarios.',
+          'card2.title': 'Gestor de jurisprudencia',
+          'card2.desc': 'Herramienta para organizar y consultar sentencias y resoluciones judiciales de forma rápida.',
+          'card3.title': 'Analizador de sentencias',
+          'card3.desc': 'Procesamiento de lenguaje natural aplicado al análisis automático de resoluciones del poder judicial.',
+          'card4.title': 'Asistente filosófico',
+          'card4.desc': 'Chatbot entrenado con textos de filosofía continental para explorar argumentos y corrientes de pensamiento.',
+          'tag.derecho-civil': 'Derecho Civil',
+          'tag.derecho-procesal-civil': 'Derecho Procesal Civil',
+          'tag.doctrina-juridica': 'Doctrina Jurídica',
+          'tag.base-datos': 'Base de datos',
+          'tag.filosofia': 'Filosofía',
+          'ach1.title': 'Primer puesto - Rally de Ideas Jurídicas',
+          'ach1.date': '2023',
+          'ach1.desc': 'Reconocimiento por investigación sobre los nexos, limitaciones y contradicciones entre La Inteligencia Artificial y el Conocimiento',
+          'ach2.title': 'Tercio Superior UPN',
+          'ach2.date': '2023-Actualidad',
+          'ach2.desc': 'Perteneciente al tercio superior de excelencia universitaria'
+        },
+        en: {
+          'aria.theme': 'Toggle theme',
+          'aria.lang': 'Change language',
+          'bio': 'I am a law student on the Civil Law track with parallel interests in languages, philosophy, and software. I combine my legal knowledge with problem-solving skills and a deep understanding of logic and argumentation, along with my software development experience, to build productivity tools and automate legal processes.',
+          'tab.proyectos': 'projects',
+          'tab.idiomas': 'languages',
+          'tab.logros': 'achievements',
+          'lang.es.name': 'Spanish', 'lang.es.level': 'Native',
+          'lang.en.name': 'English', 'lang.en.level': 'Advanced',
+          'lang.zh.name': 'Chinese', 'lang.zh.level': 'Basic',
+          'card1.title': 'Evgeny Pashukanis University Center',
+          'card1.desc': 'Academic blog on legal theory and Civil and Civil Procedure Law doctrine, aimed at university students.',
+          'card2.title': 'Case law manager',
+          'card2.desc': 'Tool to organize and quickly look up judicial rulings and decisions.',
+          'card3.title': 'Ruling analyzer',
+          'card3.desc': 'Natural language processing applied to the automatic analysis of judicial rulings.',
+          'card4.title': 'Philosophical assistant',
+          'card4.desc': 'Chatbot trained on continental philosophy texts to explore arguments and schools of thought.',
+          'tag.derecho-civil': 'Civil Law',
+          'tag.derecho-procesal-civil': 'Civil Procedure Law',
+          'tag.doctrina-juridica': 'Legal Doctrine',
+          'tag.base-datos': 'Database',
+          'tag.filosofia': 'Philosophy',
+          'ach1.title': 'First place - Legal Ideas Rally',
+          'ach1.date': '2023',
+          'ach1.desc': 'Recognition for research on the links, limitations, and contradictions between Artificial Intelligence and Knowledge',
+          'ach2.title': 'Top Third UPN',
+          'ach2.date': '2023-Present',
+          'ach2.desc': 'Ranked in the top third of university academic excellence'
+        },
+        zh: {
+          'aria.theme': '切换主题',
+          'aria.lang': '更改语言',
+          'bio': '我是一名主修民法方向的法学学生，同时对语言、哲学和软件开发抱有浓厚兴趣。我将法律知识与解决问题的能力、对逻辑与论证的深刻理解相结合，并运用软件开发经验来构建提高效率的工具、实现法律流程自动化。',
+          'tab.proyectos': '项目',
+          'tab.idiomas': '语言',
+          'tab.logros': '成就',
+          'lang.es.name': '西班牙语', 'lang.es.level': '母语',
+          'lang.en.name': '英语', 'lang.en.level': '高级',
+          'lang.zh.name': '中文', 'lang.zh.level': '基础',
+          'card1.title': '叶夫根尼·帕舒卡尼斯大学中心',
+          'card1.desc': '面向大学生的法学理论及民法、民事诉讼法学说学术博客。',
+          'card2.title': '判例管理系统',
+          'card2.desc': '用于快速整理和查询司法判决与裁定的工具。',
+          'card3.title': '判决分析器',
+          'card3.desc': '将自然语言处理应用于司法裁决的自动分析。',
+          'card4.title': '哲学助手',
+          'card4.desc': '基于大陆哲学文本训练的聊天机器人，用于探索论证与思想流派。',
+          'tag.derecho-civil': '民法',
+          'tag.derecho-procesal-civil': '民事诉讼法',
+          'tag.doctrina-juridica': '法律学说',
+          'tag.base-datos': '数据库',
+          'tag.filosofia': '哲学',
+          'ach1.title': '第一名 - 法律思想大赛',
+          'ach1.date': '2023',
+          'ach1.desc': '因研究人工智能与知识之间的联系、局限与矛盾而获得表彰',
+          'ach2.title': 'UPN 优秀前三分之一',
+          'ach2.date': '2023年至今',
+          'ach2.desc': '位列大学学术优秀生前三分之一'
+        }
+      };
+
+      var root      = document.documentElement;
+      var langBtn   = document.getElementById('langToggle');
+      var langMenu  = document.getElementById('langMenu');
+      var options   = langMenu.querySelectorAll('.lang-menu__option');
+      var i18nEls   = document.querySelectorAll('[data-i18n]');
+      var i18nAria  = document.querySelectorAll('[data-i18n-aria]');
+
+      function getStoredLang() {
+        try { return localStorage.getItem(STORAGE_KEY); }
+        catch (e) { return null; }
+      }
+
+      function setStoredLang(lang) {
+        try { localStorage.setItem(STORAGE_KEY, lang); }
+        catch (e) { /* almacenamiento no disponible: seguimos sin persistir */ }
+      }
+
+      function applyLang(lang) {
+        var dict = translations[lang] || translations.es;
+
+        i18nEls.forEach(function (el) {
+          var key = el.getAttribute('data-i18n');
+          if (dict[key]) el.textContent = dict[key];
+        });
+
+        i18nAria.forEach(function (el) {
+          var key = el.getAttribute('data-i18n-aria');
+          if (dict[key]) el.setAttribute('aria-label', dict[key]);
+        });
+
+        options.forEach(function (opt) {
+          opt.setAttribute('aria-selected', opt.getAttribute('data-lang') === lang ? 'true' : 'false');
+        });
+
+        root.setAttribute('lang', lang);
+        langBtn.textContent = LABELS[lang] || LABELS.es;
+      }
+
+      function closeMenu() {
+        langMenu.setAttribute('hidden', '');
+        langBtn.setAttribute('aria-expanded', 'false');
+      }
+
+      function openMenu() {
+        langMenu.removeAttribute('hidden');
+        langBtn.setAttribute('aria-expanded', 'true');
+      }
+
+      langBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var isOpen = langBtn.getAttribute('aria-expanded') === 'true';
+        if (isOpen) closeMenu(); else openMenu();
+      });
+
+      options.forEach(function (opt) {
+        opt.addEventListener('click', function () {
+          var lang = opt.getAttribute('data-lang');
+          setStoredLang(lang);
+          applyLang(lang);
+          closeMenu();
+        });
+      });
+
+      document.addEventListener('click', function (e) {
+        if (!langMenu.contains(e.target) && e.target !== langBtn) closeMenu();
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeMenu();
+      });
+
+      applyLang(getStoredLang() || 'es');
+    })();
+  </script>
 
 </body>
 </html>
